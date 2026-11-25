@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Available Flights - SkyRoute</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
+    <style>
+        .results {
+            width: 90%;
+            max-width: 1000px;
+            margin: 40px auto;
+            flex: 1;
+        }
+
+        .summary {
+            margin: 20px 0;
+            line-height: 1.8;
+        }
+
+        .flight-card {
+            background: white;
+            padding: 25px;
+            margin-bottom: 20px;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+        }
+
+        .flight-top, .flight-time {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .price {
+            color: #0d9488;
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .book-btn {
+            display: block;
+            background: #0d9488;
+            color: white;
+            padding: 12px;
+            text-align: center;
+            border-radius: 8px;
+            text-decoration: none;
+        }
+
+        .back {
+            display: inline-block;
+            margin-top: 20px;
+            color: #0d9488;
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <h1>✈ SkyRoute</h1>
+    <nav>
+        <a href="/">Home</a>
+        <a href="/bookings">My Bookings</a>
+    </nav>
+</header>
+
+<main class="results">
+
+    <h1>Available Flights</h1>
+
+    <div class="summary">
+        <h2>{{ source }} → {{ destination }}</h2>
+        <p>Travel Date: {{ date }}</p>
+        <p>Passengers: {{ passengers }}</p>
+        <p>{{ flights|length }} matching flights found</p>
+    </div>
+
+    {% for flight in flights %}
+
+    <div class="flight-card">
+
+        <div class="flight-top">
+            <div>
+                <h2>{{ flight.airline }}</h2>
+                <p>Flight SR{{ flight.id }}</p>
+            </div>
+
+            <div class="price">
+                ₹{{ flight.price }}
+                <small> / person</small>
+            </div>
+        </div>
+
+        <div class="flight-time">
+            <div>
+                <h3>{{ flight.departure }}</h3>
+                <p>{{ flight.source }}</p>
+            </div>
+
+            <span>✈ ─────→</span>
+
+            <div>
+                <h3>{{ flight.arrival }}</h3>
+                <p>{{ flight.destination }}</p>
+            </div>
+        </div>
+
+        <p>Total Fare: ₹{{ flight.price * passengers }}</p>
+        <br>
+
+       <a class="book-btn"
+   href="{{ url_for('book', flight_id=flight.id, date=date, passengers=passengers) }}">
+    Book Now
+</a>
+
+    </div>
+
+    {% else %}
+
+    <div class="flight-card">
+        <h2>No Flights Found</h2>
+        <p>Try searching for another route.</p>
+    </div>
+
+    {% endfor %}
+
+    <a class="back" href="/">← Search Again</a>
+
+</main>
+
+<footer>
+    <p>© 2026 SkyRoute | SDF Project</p>
+</footer>
+
+</body>
+</html>

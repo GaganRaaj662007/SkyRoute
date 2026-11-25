@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book Flight - SkyRoute</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+
+<header>
+    <h1>✈ SkyRoute</h1>
+    <nav>
+        <a href="/">Home</a>
+        <a href="/bookings">My Bookings</a>
+    </nav>
+</header>
+
+<section class="hero">
+
+    <h1>Complete Your Booking</h1>
+    <p>Enter your passenger details</p>
+
+    <form action="/confirm" method="POST">
+
+        <h2>Flight Summary</h2>
+
+        <div style="line-height: 2; margin-bottom: 25px;">
+            <strong>Airline:</strong> {{ flight.airline }}<br>
+            <strong>Flight:</strong> SR{{ flight.id }}<br>
+            <strong>Route:</strong>
+            {{ flight.source }} → {{ flight.destination }}<br>
+            <strong>Date:</strong> {{ date }}<br>
+            <strong>Passengers:</strong> {{ passengers }}<br>
+            <strong>Total Fare:</strong>
+            ₹{{ flight.price * passengers }}
+        </div>
+
+        <input type="hidden" name="flight_id"
+               value="{{ flight.id }}">
+
+        <input type="hidden" name="date"
+               value="{{ date }}">
+
+        <input type="hidden" name="passengers"
+               value="{{ passengers }}">
+
+        <h2>Passenger Details</h2>
+
+        {% for i in range(passengers) %}
+
+        <label>Passenger {{ i + 1 }} Full Name</label>
+        <input type="text" name="passenger_name"
+               placeholder="Enter full name"
+               maxlength="100" required>
+
+        {% endfor %}
+
+        <label>Email Address</label>
+        <input type="email" name="email"
+               placeholder="Enter email address" required>
+
+        <label>Phone Number</label>
+        <input type="tel" name="phone"
+               placeholder="Enter 10-digit phone number"
+               pattern="[0-9]{10}" required>
+
+        <button type="submit">Confirm Booking</button>
+
+    </form>
+
+</section>
+
+<footer>
+    <p>© 2026 SkyRoute | SDF Project</p>
+</footer>
+
+</body>
+</html>

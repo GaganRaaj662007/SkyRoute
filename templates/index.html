@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SkyRoute - Flight Reservation</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+    <header>
+        <h1>✈ SkyRoute</h1>
+        <nav>
+            <a href="/">Home</a>
+            <a href="/bookings">My Bookings</a>
+        </nav>
+    </header>
+
+    <section class="hero">
+        <h1>Your Journey Starts Here</h1>
+        <p>Discover destinations. Book your next flight.</p>
+
+        <form action="/search" method="POST">
+
+            <h2>Search Flights</h2>
+
+            <label>From</label>
+            <select name="source" required>
+                <option value="">Select departure city</option>
+                <option>Bengaluru</option>
+                <option>Delhi</option>
+                <option>Mumbai</option>
+                <option>Chennai</option>
+                <option>Hyderabad</option>
+            </select>
+
+            <label>To</label>
+            <select name="destination" required>
+                <option value="">Select destination city</option>
+                <option>Bengaluru</option>
+                <option>Delhi</option>
+                <option>Mumbai</option>
+                <option>Chennai</option>
+                <option>Hyderabad</option>
+            </select>
+
+            <label>Departure Date</label>
+            <input type="date" name="date" required>
+
+            <label>Passengers</label>
+            <input type="number" name="passengers"
+                   min="1" max="6" value="1" required>
+
+            <button type="submit">Search Flights</button>
+
+        </form>
+    </section>
+
+    <footer>
+        <p>© 2026 SkyRoute | SDF Project</p>
+    </footer>
+
+</body>
+</html>

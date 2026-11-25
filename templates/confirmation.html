@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Booking Confirmed - SkyRoute</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
+    <style>
+        .ticket {
+            background: white;
+            max-width: 650px;
+            width: 90%;
+            margin: 40px auto;
+            padding: 35px;
+            border-radius: 18px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        }
+
+        .success {
+            text-align: center;
+            color: #16a34a;
+            margin-bottom: 25px;
+        }
+
+        .checkmark {
+            font-size: 65px;
+        }
+
+        .booking-id {
+            background: #f0fdfa;
+            padding: 20px;
+            text-align: center;
+            border: 2px dashed #0d9488;
+            border-radius: 10px;
+            margin-bottom: 25px;
+        }
+
+        .details {
+            line-height: 2.2;
+        }
+
+        .fare {
+            font-size: 25px;
+            color: #0d9488;
+            font-weight: bold;
+            margin: 20px 0;
+        }
+
+        .action {
+            display: block;
+            background: #0d9488;
+            color: white;
+            text-decoration: none;
+            text-align: center;
+            padding: 14px;
+            border-radius: 8px;
+            margin-top: 12px;
+        }
+
+        .notice {
+            color: #64748b;
+            font-size: 14px;
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        @media print {
+            header, footer, .action {
+                display: none;
+            }
+
+            .ticket {
+                box-shadow: none;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <h1>✈ SkyRoute</h1>
+    <nav>
+        <a href="/">Home</a>
+        <a href="/bookings">My Bookings</a>
+    </nav>
+</header>
+
+<main class="ticket">
+
+    <div class="success">
+        <div class="checkmark">✓</div>
+        <h1>Booking Successful!</h1>
+        <p>Your flight reservation is confirmed.</p>
+    </div>
+
+    <div class="booking-id">
+        <p>Booking Reference Number</p>
+        <h2>{{ booking_id }}</h2>
+    </div>
+
+    <div class="details">
+
+        <h2>Flight Details</h2>
+
+        <strong>Airline:</strong> {{ flight.airline }}<br>
+
+        <strong>Flight Number:</strong> SR{{ flight.id }}<br>
+
+        <strong>From:</strong> {{ flight.source }}<br>
+
+        <strong>To:</strong> {{ flight.destination }}<br>
+
+        <strong>Departure Date:</strong> {{ date }}<br>
+
+        <strong>Departure Time:</strong> {{ flight.departure }}<br>
+
+        <strong>Arrival Time:</strong> {{ flight.arrival }}<br>
+
+        <strong>Passengers:</strong> {{ passengers }}<br>
+
+        <strong>Passenger Names:</strong>
+
+        {% for name in names %}
+            <div>{{ loop.index }}. {{ name }}</div>
+        {% endfor %}
+
+        <strong>Status:</strong>
+        <span style="color: green;">Confirmed</span>
+
+    </div>
+
+    <div class="fare">
+        Total Fare: ₹{{ total_fare }}
+    </div>
+
+    <button onclick="window.print()">
+        Print Reservation
+    </button>
+
+    <a class="action" href="/bookings">
+        View My Bookings
+    </a>
+
+    <a class="action" href="/">
+        Book Another Flight
+    </a>
+
+    <p class="notice">
+        Academic demonstration only.
+        Not a valid airline ticket.
+    </p>
+
+</main>
+
+<footer>
+    <p>© 2026 SkyRoute | SDF Project</p>
+</footer>
+
+</body>
+</html>

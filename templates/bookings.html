@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Bookings - SkyRoute</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
+    <style>
+        .container {
+            max-width: 900px;
+            margin: 40px auto;
+            padding: 20px;
+        }
+
+        .booking-card {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            margin-bottom: 25px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .booking-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .confirmed {
+            background: #dcfce7;
+            color: #166534;
+            padding: 8px 15px;
+            border-radius: 20px;
+        }
+
+        .cancelled {
+            background: #fee2e2;
+            color: #991b1b;
+            padding: 8px 15px;
+            border-radius: 20px;
+        }
+
+        .route {
+            font-size: 25px;
+            font-weight: bold;
+            color: #10243e;
+            text-align: center;
+            margin: 25px 0;
+        }
+
+        .details {
+            line-height: 2.2;
+        }
+
+        .fare {
+            font-size: 23px;
+            font-weight: bold;
+            color: #0d9488;
+            margin: 20px 0;
+        }
+
+        .cancel-form {
+            padding: 0;
+            margin: 0;
+            background: transparent;
+            box-shadow: none;
+        }
+
+        .cancel-btn {
+            background: #dc2626;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        .cancel-btn:hover {
+            background: #b91c1c;
+        }
+
+        .empty {
+            background: white;
+            padding: 40px;
+            border-radius: 15px;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <h1>✈ SkyRoute</h1>
+
+    <nav>
+        <a href="/">Home</a>
+        <a href="/bookings">My Bookings</a>
+    </nav>
+</header>
+
+<main class="container">
+
+    <h1>My Bookings</h1>
+    <p>View and manage your flight reservations.</p>
+
+    {% for booking in bookings %}
+
+    <div class="booking-card">
+
+        <div class="booking-header">
+
+            <div>
+                <p>Booking Reference</p>
+                <h3>{{ booking.booking_id }}</h3>
+            </div>
+
+            {% if booking.status == "Confirmed" %}
+                <span class="confirmed">Confirmed</span>
+            {% else %}
+                <span class="cancelled">Cancelled</span>
+            {% endif %}
+
+        </div>
+
+        <div class="route">
+            {{ booking.source }} ✈ {{ booking.destination }}
+        </div>
+
+        <hr>
+
+        <div class="details">
+
+            <strong>Airline:</strong>
+            {{ booking.airline }}<br>
+
+            <strong>Flight Number:</strong>
+            SR{{ booking.flight_id }}<br>
+
+            <strong>Travel Date:</strong>
+            {{ booking.travel_date }}<br>
+
+            <strong>Passengers:</strong>
+            {{ booking.passengers }}<br>
+
+            <strong>Passenger Names:</strong>
+            {{ booking.passenger_names }}<br>
+
+        </div>
+
+        <div class="fare">
+            Total Fare: ₹{{ booking.total_fare }}
+        </div>
+
+        {% if booking.status == "Confirmed" %}
+
+        <form class="cancel-form"
+              action="{{ url_for('cancel_booking', booking_id=booking.booking_id) }}"
+              method="POST"
+              onsubmit="return confirm('Are you sure you want to cancel this booking?');">
+
+            <button class="cancel-btn" type="submit">
+                Cancel Booking
+            </button>
+
+        </form>
+
+        {% else %}
+
+            <p style="color: #dc2626;">
+                This reservation has been cancelled.
+            </p>
+
+        {% endif %}
+
+    </div>
+
+    {% else %}
+
+    <div class="empty">
+        <h2>No Bookings Found</h2>
+        <p>You have not booked any flights yet.</p>
+        <a href="/">Search Flights</a>
+    </div>
+
+    {% endfor %}
+
+</main>
+
+<footer>
+    <p>© 2026 SkyRoute | SDF Project</p>
+</footer>
+
+</body>
+</html>
